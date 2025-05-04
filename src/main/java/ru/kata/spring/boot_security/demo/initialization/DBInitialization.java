@@ -25,8 +25,8 @@ public class DBInitialization {
     private final PasswordEncoder passwordEncoder;
     private static final Logger logger = LoggerFactory.getLogger(DBInitialization.class);
 
-    public static final String ROLE_ADMIN = "ROLE_ADMIN"; // Объявление ролей как констант
-    public static final String ROLE_USER = "ROLE_USER";   //  Добавлено
+    public static final String ROLE_ADMIN = "ROLE_ADMIN";
+    public static final String ROLE_USER = "ROLE_USER";
 
 
     @Autowired
@@ -44,8 +44,10 @@ public class DBInitialization {
         Role adminRole = createRoleIfNotFound(ROLE_ADMIN);
         Role userRole = createRoleIfNotFound(ROLE_USER);
 
-        createUserIfNotFound("111", "admin@example.com", "AdminFirstName", "AdminLastName", Collections.singleton(adminRole));
-        createUserIfNotFound("222", "user@example.com", "UserFirstName", "UserLastName", Collections.singleton(userRole));
+        createUserIfNotFound("111", "admin@example.com", "AdminFirstName",
+                "AdminLastName", Collections.singleton(adminRole));
+        createUserIfNotFound("222", "user@example.com", "UserFirstName",
+                "UserLastName", Collections.singleton(userRole));
     }
 
     private Role createRoleIfNotFound(String roleName) {
@@ -66,7 +68,7 @@ public class DBInitialization {
         return role;
     }
 
-    private void createUserIfNotFound(String password, String email, String firstName, String lastName, Collection<Role> roles) { // Email first
+    private void createUserIfNotFound(String password, String email, String firstName, String lastName, Collection<Role> roles) {
         User user = userRepository.findByEmail(email);
         if (user == null) {
             user = new User();
@@ -87,16 +89,3 @@ public class DBInitialization {
         }
     }
 }
-
-//    private Role createRoleIfNotFound(String roleName) {
-//        Role role = roleService.findByName(roleName);
-//        if (role == null) {
-//            role = new Role();
-//            role.setName(roleName);
-//            roleService.addRole(role);
-//            System.out.println("Created role: " + roleName);
-//        } else {
-//            System.out.println("Role already exists: " + roleName);
-//        }
-//        return role;
-//    }

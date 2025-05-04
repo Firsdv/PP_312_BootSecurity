@@ -64,6 +64,7 @@
     <div class="form-container mt-3">
         <h2>Add New User</h2>
         <form th:action="@{/admin/new}" th:object="${user}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />  <!-- добавид токен -->
 
             <div class="mb-3">
                 <label for="firstname" class="form-label">First Name</label>

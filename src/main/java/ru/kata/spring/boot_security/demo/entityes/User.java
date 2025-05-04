@@ -1,5 +1,9 @@
 package ru.kata.spring.boot_security.demo.entityes;
 
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Fetch;
+
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,8 +12,10 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.Objects;
 
+
 @Entity
 @Table(name = "users")
+@DynamicUpdate
 public class User implements UserDetails {
 
     @Id
@@ -22,16 +28,18 @@ public class User implements UserDetails {
     @Column(name = "lastname")
     private String lastname;
 
-    @Column(name = "email",unique = true)
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Fetch(FetchMode.JOIN)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+
     private Set<Role> roles;
 
     public User() {
